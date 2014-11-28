@@ -6,7 +6,7 @@
 										array('usuario'=>'root'));
 										
 	foreach($res as $row){
-		echo $row['numero'].', '.$row['marca'].', '.$row['modelo'].'<br>;
+		echo $row['numero'].', '.$row['marca'].', '.$row['modelo'].'<br>';
 	}
 	 									
 ?>

@@ -10,7 +10,7 @@
 	$servidorDB="mysql.hostinger.es";
 	$nombreDB='u545571603_silav';
 		
-	$urlns="www.silav.esy.es/WebService";
+	$urlns="www.silav.esy.es";
 
 	//Se crea el servidor Soap
 	$servidor=new soap_server;

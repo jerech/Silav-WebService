@@ -10,10 +10,7 @@ $soapclient = new nusoap_client( 'http://www.silav.hol.es/Web Service/servicio.p
 
 //Llamamos la función que habíamos implementado en el Web Service
 //e imprimimos lo que nos devuelve
-echo $soapclient->call('autenticarChofer',array( 'usuario'=>'jerech','password'=>'12345jc'));
+echo $soapclient->call('conectarChofer',array( 'usuario'=>'jerech','contrasenia'=>'1234','num_movil'=>2,'estado'=>'LIBRE'));
 
-echo '<pre>' . htmlspecialchars($soapclient->request, ENT_QUOTES) . '</pre>';
-echo '<h2>Response</h2>';
-echo '<pre>' . htmlspecialchars($soapclient->response, ENT_QUOTES) . '</pre>';
 
 ?>

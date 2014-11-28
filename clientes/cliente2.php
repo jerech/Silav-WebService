@@ -2,17 +2,10 @@
 
   require_once('lib/nusoap.php');
 	
-	$soapcliente=new nusoap_client("www.silav.hol.es/Web Service/servicio.php");
+	$soapcliente=new nusoap_client("http://silav.hol.es/Web Service/servicio.php");
 	
-	// Se pudo conectar?
-	$error = $soapcliente->getError();
-	if ($error) {
-		echo '<pre style="color: red">' . $error . '</pre>';
-		echo '<p style="color:red;'>htmlspecialchars($cliente->getDebug(), ENT_QUOTES).'</p>';
-		die();
-} 
-	$res=$soapcliente->call('autenticarChofer',
-										array("usuario"=>'jerech'));
+	$res=$soapcliente->call('conectarChofer',
+										array("usuario"=>'jerech',"contrasenia"=>'1234',"num_movil"=>2,"estado"=>'LIBRE'));
 										
 	if ($soapcliente->fault) {
 		echo '<b>Error: ';
@@ -25,5 +18,7 @@
 				} else {
 					echo $res; 	
 					}	
-	}						
+	}	
+	print_r($res);
+	echo " Hola:".$res;					
  ?>

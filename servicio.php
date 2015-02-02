@@ -4,11 +4,7 @@
 	ini_set("soap.wsdl_cache_enabled", "0");
 
 	require_once('lib/nusoap.php');
-
-	$usuarioDB="u545571603_root";
-	$contraseniaDB="js12345";
-	$servidorDB="mysql.hostinger.es";
-	$nombreDB='u545571603_silav';
+	require_once('../conexionBD.php');
 		
 	$urlns="www.silav.esy.es/WebService";
 
@@ -55,6 +51,11 @@
  								array("usuario"=>'xsd:string'),
  								array("return"=>'tns:ArregloMoviles'),
  								$urlns);
+
+ 	$servidor->register('asiganarClaveGCM',
+ 								array("usuario" => 'xsd:string', "claveGCM" => 'xsd:string'),
+ 								array("return" => 'xsd:boolean'),
+ 								$urlns);
 								
 								
 	//Se agregan las estructuras de datos necesarias
@@ -83,6 +84,7 @@
 								
 	//Implementación de las funciones necesarias
 	function hola($nombre) {
+
 		return "Hola ".$nombre;
 
 	}
@@ -90,18 +92,14 @@
 	
 	
 	function conectarChofer($usuario, $contrasenia, $num_movil, $estado) {
-			global $usuarioDB,$contraseniaDB,$servidorDB,$nombreDB;
-			$consultaOk = false;
-			$com=mysql_connect($servidorDB, $usuarioDB, $contraseniaDB); 
+
+			$com = establecerConexion();
 			if(!$com){
-				die('No se pudo conectar:'.mysql_error());
-							
+				echo "Error al conectar con la Base de Datos"; 
+				exit();
 			}
-			
-			$bd_seleccionada=mysql_select_db($nombreDB);
-			if(!$bd_seleccionada){
-				die('No se puede usar '.$nombreDB.':'.mysql_error());			
-			}
+
+			$consultaOk = false;
 			
 			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia'";
 			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario'";			
@@ -128,17 +126,10 @@
 						
 		}	
 	function actualizarEstado($estado,$usuario) {
-		global $usuarioDB,$contraseniaDB,$servidorDB,$nombreDB;
-
-			$com=mysql_connect($servidorDB, $usuarioDB, $contraseniaDB); 
+		$com = establecerConexion();
 			if(!$com){
-				die('No se pudo conectar:'.mysql_error());
-							
-			}
-			
-			$bd_seleccionada=mysql_select_db($nombreDB);
-			if(!$bd_seleccionada){
-				die('No se puede usar '.$nombreDB.':'.mysql_error());			
+				echo "Error al conectar con la Base de Datos";
+				exit();
 			}
 		
 		$consulta="update ChoferesConectados set estado_movil='$estado' where usuario='$usuario'";
@@ -152,15 +143,10 @@
 
 	function actualizarUbicacion($usuario, $ulatitud, $ulongitud) {
 		
-		global $usuarioDB,$contraseniaDB,$servidorDB,$nombreDB;
-		$com=mysql_connect($servidorDB, $usuarioDB, $contraseniaDB); 
+		$com = establecerConexion();
 			if(!$com){
-				die('No se pudo conectar:'.mysql_error());
-							
-			}
-		$bd_seleccionada=mysql_select_db($nombreDB);
-			if(!$bd_seleccionada){
-				die('No se puede usar '.$nombreDB.':'.mysql_error());			
+				echo "Error al conectar con la Base de Datos";
+				exit();
 			}
 		
 		$consulta="update ChoferesConectados set ubicacion_lat='$ulatitud', ubicacion_lon='$ulongitud' where usuario='$usuario'";
@@ -171,15 +157,10 @@
 	}
 
 function desconectarChofer($usuario, $num_movil) {
-		global $usuarioDB,$contraseniaDB,$servidorDB,$nombreDB;
-		$com=mysql_connect($servidorDB, $usuarioDB, $contraseniaDB); 
+		$com = establecerConexion();
 			if(!$com){
-				die('No se pudo conectar:'.mysql_error());
-							
-			}
-		$bd_seleccionada=mysql_select_db($nombreDB);
-			if(!$bd_seleccionada){
-				die('No se puede usar '.$nombreDB.':'.mysql_error());			
+				echo "Error al conectar con la Base de Datos";
+				exit();
 			}
 		$consultaEliminarChoferConectado = "delete from ChoferesConectados where usuario='$usuario' and numero_movil='$num_movil'";
 		
@@ -191,15 +172,10 @@ function desconectarChofer($usuario, $num_movil) {
 }
 
 function obtenerMoviles($usuario) {
-	global $usuarioDB,$contraseniaDB,$servidorDB,$nombreDB;
-		$com=mysql_connect($servidorDB, $usuarioDB, $contraseniaDB); 
+	$com = establecerConexion();
 			if(!$com){
-				die('No se pudo conectar:'.mysql_error());
-							
-			}
-		$bd_seleccionada=mysql_select_db($nombreDB);
-			if(!$bd_seleccionada){
-				die('No se puede usar '.$nombreDB.':'.mysql_error());			
+				echo "Error al conectar con la Base de Datos";
+				exit();
 			}
 		
 		$consultaMovilesChofer = "SELECT Moviles.numero, Moviles.marca, Moviles.modelo FROM Moviles INNER JOIN AsignacionesMovil ON Moviles.id = AsignacionesMovil.id_movil INNER JOIN Choferes ON AsignacionesMovil.id_chofer = Choferes.id WHERE Choferes.usuario='$usuario' order by Moviles.numero";
@@ -216,15 +192,10 @@ function obtenerMoviles($usuario) {
 }
 
 function mensajeSos($usuario) {
-	global $usuarioDB,$contraseniaDB,$servidorDB,$nombreDB;
-		$com=mysql_connect($servidorDB, $usuarioDB, $contraseniaDB); 
+	$com = establecerConexion();
 			if(!$com){
-				die('No se pudo conectar:'.mysql_error());
-							
-			}
-		$bd_seleccionada=mysql_select_db($nombreDB);
-			if(!$bd_seleccionada){
-				die('No se puede usar '.$nombreDB.':'.mysql_error());			
+				echo "Error al conectar con la Base de Datos";
+				exit();
 			}
 		
 		$consulta = "update ChoferesConectados set sos=true where usuario='$usuario'";
@@ -232,6 +203,22 @@ function mensajeSos($usuario) {
 		mysql_close($com);
 		
 		return $consultaOk;
+}
+
+function asignarClaveGCM($usuario, $claveGCM){
+
+	$com = establecerConexion();
+			if(!$com){
+				echo "Error al conectar con la Base de Datos";
+				exit();
+			}
+		
+		$consulta = "update Choferes set clave_gcm='$claveGCM' where usuario='$usuario'";
+		$consultaOk=mysql_query($consulta);
+		mysql_close($com);
+		
+		return $consultaOk;
+
 }
 	
 	$servidor->service($HTTP_RAW_POST_DATA);

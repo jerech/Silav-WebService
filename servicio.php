@@ -52,7 +52,7 @@
  								array("return"=>'tns:ArregloMoviles'),
  								$urlns);
 
- 	$servidor->register('asiganarClaveGCM',
+ 	$servidor->register('asignarClaveGCM',
  								array("usuario" => 'xsd:string', "claveGCM" => 'xsd:string'),
  								array("return" => 'xsd:boolean'),
  								$urlns);

@@ -21,6 +21,11 @@
 								array("nombre"=>'xsd:string'),
 								array("return"=>'xsd:string'),
 								$urlns);
+								
+	$servidor->register('login',
+								array("usuario"=>'xsd:string',"contrasenia"=>'xsd:string'),
+								array("return"=>'xsd:boolean'),
+								$urlns);
 
 	$servidor->register('conectarChofer',
 								array("usuario"=>'xsd:string',"contrasenia"=>'xsd:string',"num_movil"=>'xsd:int',"estado"=>'xsd:string'),
@@ -52,8 +57,12 @@
  								array("return"=>'tns:ArregloMoviles'),
  								$urlns);
 
- 	$servidor->register('asiganarClaveGCM',
+ 	$servidor->register('asignarClaveGCM',
  								array("usuario" => 'xsd:string', "claveGCM" => 'xsd:string'),
+ 								array("return" => 'xsd:boolean'),
+ 								$urlns);
+ 	$servidor->register('notificarEstadoPasajeEnCurso',
+ 								array("idPasaje" => 'xsd:int', "estado" => 'xsd:string'),
  								array("return" => 'xsd:boolean'),
  								$urlns);
 								
@@ -88,7 +97,38 @@
 		return "Hola ".$nombre;
 
 	}
+	
+	function login($usuario, $contrasenia) {
+			$com = establecerConexion();
+			if(!$com){
+				echo "Error al conectar con la Base de Datos"; 
+				exit();
+			}
+	
+			$consultaOk = false;
+			
+			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia'";
+			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario'";			
+			$totalCampos=mysql_num_rows(mysql_query($consultaEsChoferRegistrado));
+			
+			if($totalCampos==1){
+				
+				if(mysql_num_rows(mysql_query($consultaChoferEstaConectado)) == 0){
+					$consultaOk = true;
+					
+				}else {
+					$consultaOk=false;
+					
+				}
+			}else {
+				$consultaOk = false;
+			}
+			
+			mysql_close($com);
 		
+			return $consultaOk;
+	
+	}
 	
 	
 	function conectarChofer($usuario, $contrasenia, $num_movil, $estado) {
@@ -214,6 +254,22 @@ function asignarClaveGCM($usuario, $claveGCM){
 			}
 		
 		$consulta = "update Choferes set clave_gcm='$claveGCM' where usuario='$usuario'";
+		$consultaOk=mysql_query($consulta);
+		mysql_close($com);
+		
+		return $consultaOk;
+
+}
+
+function notificarEstadoPasajeEnCurso($idPasaje, $estado){
+
+	$com = establecerConexion();
+			if(!$com){
+				echo "Error al conectar con la Base de Datos";
+				exit();
+			}
+		
+		$consulta = "update PasajesEnCurso set estado='$estado' where id=$idPasaje";
 		$consultaOk=mysql_query($consulta);
 		mysql_close($com);
 		

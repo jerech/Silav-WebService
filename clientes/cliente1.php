@@ -1,12 +1,10 @@
 <?php
-	require_once('lib/nusoap.php');
+	require_once('../lib/nusoap.php');
 	
 	$soapcliente=new nusoap_client('http://www.silav.esy.es/WebService/servicio.php');
-	$res=$soapcliente->call('obtenerMoviles',
-										array('usuario'=>'jerech'));
+	$res=$soapcliente->call('notificarEstadoPasajeEnCurso',
+										array('idPasaje'=>'20145','estado'=>'asignado'));
 										
-	foreach($res as $row){
-		echo $row['numero'].', '.$row['marca'].', '.$row['modelo'].'<br>';
-	}
+	print_r($res, $return = null);
 	 									
 ?>

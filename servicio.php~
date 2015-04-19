@@ -123,10 +123,6 @@
 			}else {
 				$consultaOk = false;
 			}
-			
-			mysql_close($com);
-		
-			return $consultaOk;
 	
 	}
 	

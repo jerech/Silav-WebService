@@ -1,0 +1,14 @@
+<?php
+	require_once('lib/nusoap.php');
+	$soapcliente=new nusoap_client("http://silav.esy.es/WebService/servicio.php?wsdl",true);
+	$res=$soapcliente->call("hola",array("nombre"=>'jerech'));
+	$error=$soapcliente->getError();
+	if($error){
+		echo $error;	
+	}
+	
+	echo '<pre>' . htmlspecialchars($soapcliente->request, ENT_QUOTES) . '</pre>';
+echo '<h2>Response</h2>';
+echo '<pre>' . htmlspecialchars($soapcliente->response, ENT_QUOTES) . '</pre>';
+	echo $res."";
+?>

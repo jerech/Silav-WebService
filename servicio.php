@@ -62,7 +62,7 @@
  								array("return" => 'xsd:boolean'),
  								$urlns);
  	$servidor->register('notificarEstadoPasajeEnCurso',
- 								array("idPasaje" => 'xsd:int', "estado" => 'xsd:string'),
+ 								array("idPasaje" => 'xsd:int', "estado" => 'xsd:string', "usuario" => 'xsd:string'),
  								array("return" => 'xsd:boolean'),
  								$urlns);
 								
@@ -261,7 +261,7 @@ function asignarClaveGCM($usuario, $claveGCM){
 
 }
 
-function notificarEstadoPasajeEnCurso($idPasaje, $estado){
+function notificarEstadoPasajeEnCurso($idPasaje, $estado, $usuario){
 
 	$com = establecerConexion();
 			if(!$com){
@@ -271,6 +271,12 @@ function notificarEstadoPasajeEnCurso($idPasaje, $estado){
 		
 		$consulta = "update PasajesEnCurso set estado='$estado' where id=$idPasaje";
 		$consultaOk=mysql_query($consulta);
+		if($consultaOk) {
+			if($estado=="rechazado"){
+				$consulta2 = "update ChoferesConectados set estado_movil='LIBRE' where usuario='$usuario'";
+				$consultaOk=mysql_query($consulta2);
+			}
+		}
 		mysql_close($com);
 		
 		return $consultaOk;

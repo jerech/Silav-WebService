@@ -5,8 +5,10 @@
 
 	require_once('lib/nusoap.php');
 	require_once('../conexionBD.php');
-		
-	$urlns="www.silav.esy.es/WebService";
+
+	define("archivoINI", "url.ini");
+	$array_ini = parse_ini_file(archivoINI, true);
+	$urlns=$array_ini['urlns'];
 
 	//Se crea el servidor Soap
 	$servidor=new soap_server;

@@ -4,7 +4,7 @@
 	ini_set("soap.wsdl_cache_enabled", "0");
 
 	require_once('lib/nusoap.php');
-	require_once('../conexionBD.php');
+	require_once('../app/conexionBD.php');
 
 	define("archivoINI", "url.ini");
 	$array_ini = parse_ini_file(archivoINI, true);

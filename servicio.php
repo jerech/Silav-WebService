@@ -40,7 +40,7 @@
 								$urlns);
 								
 	$servidor->register('actualizarUbicacion',
-								array("usuario"=>'xsd:double',"ulatitud"=>'xsd:double',"ulongitud"=>'xsd:string'),
+								array("usuario"=>'xsd:string',"ulatitud"=>'xsd:double',"ulongitud"=>'xsd:double'),
 								array("return"=>'xsd:boolean'),
 								$urlns);
 								

@@ -40,7 +40,7 @@
 								$urlns);
 								
 	$servidor->register('actualizarUbicacion',
-								array("usuario"=>'xsd:string',"ulatitud"=>'xsd:string',"ulongitud"=>'xsd:string'),
+								array("usuario"=>'xsd:double',"ulatitud"=>'xsd:double',"ulongitud"=>'xsd:string'),
 								array("return"=>'xsd:boolean'),
 								$urlns);
 								
@@ -191,7 +191,7 @@
 				exit();
 			}
 		
-		$consulta="update ChoferesConectados set ubicacion_lat='$ulatitud', ubicacion_lon='$ulongitud' where usuario='$usuario'";
+		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud where usuario='$usuario'";
 		$consultaOk=mysql_query($consulta);
 		mysql_close($com);
 		

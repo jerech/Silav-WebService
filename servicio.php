@@ -146,7 +146,8 @@
 			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia'";
 			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario'";			
 			$consultaConectarChofer = "insert into ChoferesConectados(usuario,numero_movil,estado_movil) values ('$usuario','$num_movil','$estado')";
-		
+			$consultaUpdateEstadoMovil="update ChoferesConectados set estado_movil='LIBRE' where usuario='$usuario'";
+			
 			$totalCampos=mysql_num_rows(mysql_query($consultaEsChoferRegistrado));
 			
 			if($totalCampos==1){
@@ -155,7 +156,7 @@
 					$consultaOk = mysql_query($consultaConectarChofer);
 					
 				}else {
-					$consultaOk=false;
+					$consultaOk=mysql_query($consultaUpdateEstadoMovil);
 					
 				}
 			}else {
@@ -167,6 +168,7 @@
 			return $consultaOk;
 						
 		}	
+		
 	function actualizarEstado($estado,$usuario) {
 		$com = establecerConexion();
 			if(!$com){

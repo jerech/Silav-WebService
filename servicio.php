@@ -190,8 +190,10 @@
 				echo "Error al conectar con la Base de Datos";
 				exit();
 			}
+			
+		$fechaActual = date("y-m-d H:i:s");
 		
-		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud where usuario='$usuario'";
+		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud, ultima_actualizacion='$fechaActual' where usuario='$usuario'";
 		$consultaOk=mysql_query($consulta);
 		mysql_close($com);
 		

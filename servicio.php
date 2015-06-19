@@ -110,7 +110,7 @@
 			$consultaOk = false;
 			
 			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia'";
-			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario'";			
+			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario' and (estado_movil='LIBRE' or estado_movil='OCUPADO')";			
 			$totalCampos=mysql_num_rows(mysql_query($consultaEsChoferRegistrado));
 			
 			if($totalCampos==1){

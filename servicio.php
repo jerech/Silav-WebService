@@ -40,7 +40,7 @@
 								$urlns);
 								
 	$servidor->register('actualizarUbicacion',
-								array("usuario"=>'xsd:string',"ulatitud"=>'xsd:string',"ulongitud"=>'xsd:string'),
+								array("usuario"=>'xsd:string',"ulatitud"=>'xsd:string',"ulongitud"=>'xsd:string',"estado"=>'xsd:string'),
 								array("return"=>'xsd:boolean'),
 								$urlns);
 								
@@ -185,7 +185,7 @@
 	}
 
 
-	function actualizarUbicacion($usuario, $ulatitud, $ulongitud) {
+	function actualizarUbicacion($usuario, $ulatitud, $ulongitud, $estado) {
 		
 		$com = establecerConexion();
 			if(!$com){
@@ -195,7 +195,7 @@
 			
 		$fechaActual = date("y-m-d H:i:s");
 		
-		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud, ultima_actualizacion='$fechaActual' where usuario='$usuario'";
+		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud, ultima_actualizacion='$fechaActual', estado_movil='$estado' where usuario='$usuario'";
 		$consultaOk=mysql_query($consulta);
 		mysql_close($com);
 		

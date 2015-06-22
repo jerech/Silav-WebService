@@ -208,7 +208,7 @@ function desconectarChofer($usuario, $num_movil) {
 				echo "Error al conectar con la Base de Datos";
 				exit();
 			}
-		$consultaEliminarChoferConectado = "delete from ChoferesConectados where usuario='$usuario' and numero_movil='$num_movil'";
+		$consultaEliminarChoferConectado = "delete from ChoferesConectados where usuario='$usuario'";
 		
 		$consultaOk=mysql_query($consultaEliminarChoferConectado);
 		mysql_close($com);

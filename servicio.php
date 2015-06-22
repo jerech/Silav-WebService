@@ -143,7 +143,7 @@
 
 			$consultaOk = false;
 			
-			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia'";
+			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia' and activo=1 and habilitado=1";
 			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario'";			
 			$consultaConectarChofer = "insert into ChoferesConectados(usuario,numero_movil,estado_movil) values ('$usuario','$num_movil','$estado')";
 			$consultaUpdateEstadoMovil="update ChoferesConectados set estado_movil='LIBRE' where usuario='$usuario'";

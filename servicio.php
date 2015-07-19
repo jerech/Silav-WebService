@@ -275,7 +275,7 @@ function notificarEstadoPasajeEnCurso($idPasaje, $estado, $usuario){
 				exit();
 			}
 		
-		$consulta = "update PasajesEnCurso set estado='$estado', usuarioChofer='$usuario' , numeroMovil=(select numero_movil from ChoferesConectados from usuario='$usuario') where id=$idPasaje";
+		$consulta = "update PasajesEnCurso set estado='$estado', usuarioChofer='$usuario' , numeroMovil=(select numero_movil from ChoferesConectados where usuario='$usuario') where id=$idPasaje";
 		$consultaOk=mysql_query($consulta);
 		if($consultaOk) {
 			if($estado=="rechazado"){

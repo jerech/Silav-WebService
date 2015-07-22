@@ -145,7 +145,7 @@
 			
 			$consultaEsChoferRegistrado="select id, usuario from Choferes where usuario='$usuario' and contrasenia='$contrasenia'";
 			$consultaChoferEstaConectado = "select usuario from ChoferesConectados where usuario='$usuario'";			
-			$consultaConectarChofer = "insert into ChoferesConectados(usuario,numero_movil,estado_movil) values ('$usuario','$num_movil','$estado')";
+			$consultaConectarChofer = "insert into ChoferesConectados(usuario,numero_movil,estado_movil,id_agencia) values ('$usuario','$num_movil','$estado',(select id_agencia from Choferes where usuario='$usuario'))";
 			$consultaUpdateEstadoMovil="update ChoferesConectados set estado_movil='LIBRE' where usuario='$usuario'";
 			
 			$totalCampos=mysql_num_rows(mysql_query($consultaEsChoferRegistrado));

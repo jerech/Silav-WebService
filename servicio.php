@@ -199,7 +199,7 @@
 		$consultaOk=mysql_query($consulta);
 
 		$consulta2="insert into Tracking(`chofer_id`, `latitud`, `longitud`, `created_at`) values(
-			select id from Choferes where usuario='$usuario', '$ulatitud','$ulongitud', '$fechaActual')";
+			(select id from Choferes where usuario='$usuario'), '$ulatitud','$ulongitud', '$fechaActual')";
 		mysql_query($consulta2);
 
 		mysql_close($com);

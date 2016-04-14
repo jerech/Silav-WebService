@@ -198,9 +198,18 @@
 		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud, ultima_actualizacion='$fechaActual', estado_movil='$estado' where usuario='$usuario'";
 		$consultaOk=mysql_query($consulta);
 
-		$consulta2="insert into Tracking(`chofer_id`, `latitud`, `longitud`, `created_at`) values(
-			(select id from Choferes where usuario='$usuario'), '$ulatitud','$ulongitud', '$fechaActual')";
-		mysql_query($consulta2);
+		$m=(int)date("i");
+		$s=(int)date("s");
+		if($m==5||$m==10||$m==15||$m==20||$m==25
+			||$m==30||$m==35||$m==40||$m==45||$m==50||$m==55||$m==0){
+			if($s>50){
+				$consulta2="insert into Tracking(`chofer_id`, `latitud`, `longitud`, `created_at`, estado) values(
+					(select id from Choferes where usuario='$usuario'), '$ulatitud','$ulongitud', '$fechaActual', $estado)";
+				mysql_query($consulta2);
+			}
+		}
+
+		
 
 		mysql_close($com);
 		

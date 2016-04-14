@@ -204,7 +204,7 @@
 			||$m==30||$m==35||$m==40||$m==45||$m==50||$m==55||$m==0){
 			if($s>50){
 				$consulta2="insert into Tracking(`chofer_id`, `latitud`, `longitud`, `created_at`, estado) values(
-					(select id from Choferes where usuario='$usuario'), '$ulatitud','$ulongitud', '$fechaActual', $estado)";
+					(select id from Choferes where usuario='$usuario'), '$ulatitud','$ulongitud', '$fechaActual', '$estado')";
 				mysql_query($consulta2);
 			}
 		}

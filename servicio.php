@@ -193,10 +193,15 @@
 				exit();
 			}
 			
-		$fechaActual = date("y-m-d H:i:s");
+		$fechaActual = date("Y-m-d H:i:s");
 		
 		$consulta="update ChoferesConectados set ubicacion_lat=$ulatitud, ubicacion_lon=$ulongitud, ultima_actualizacion='$fechaActual', estado_movil='$estado' where usuario='$usuario'";
 		$consultaOk=mysql_query($consulta);
+
+		$consulta2="insert into Tracking(`chofer_id`, `latitud`, `longitud`, `created_at`) values(
+			select id from Choferes where usuario='$usuario', '$ulatitud','$ulongitud', '$fechaActual')";
+		mysql_query($consulta2);
+
 		mysql_close($com);
 		
 		return $consultaOk;

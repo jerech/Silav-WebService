@@ -67,6 +67,14 @@
  								array("idPasaje" => 'xsd:int', "estado" => 'xsd:string', "usuario" => 'xsd:string'),
  								array("return" => 'xsd:boolean'),
  								$urlns);
+
+
+ 	$servidor->register('registrarPasaje',
+ 								array("nombreCliente" => 'xsd:string', "direccion" => 'xsd:string',
+ 									"latitud" => 'xsd:string',"longitud" => 'xsd:string',
+ 									"fecha" => 'xsd:string'),
+ 								array("return" => 'xsd:boolean'),
+ 								$urlns);
 								
 								
 	//Se agregan las estructuras de datos necesarias
@@ -225,6 +233,34 @@ function desconectarChofer($usuario, $num_movil) {
 		$consultaEliminarChoferConectado = "delete from ChoferesConectados where usuario='$usuario'";
 		
 		$consultaOk=mysql_query($consultaEliminarChoferConectado);
+		mysql_close($com);
+		
+		return $consultaOk;
+
+}
+
+function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha){
+		$com = establecerConexion();
+			if(!$com){
+				echo "Error al conectar con la Base de Datos";
+				exit();
+			}
+		$insert = "insert into PasajesEnCurso(nombreCliente,
+																		direccion,
+																		latDireccion,
+																		lonDireccion,
+																		fechaDePedido,
+																		fecha,
+																		asignacionAutomatica) values(
+			'".$nombre."',
+			'".$direccion."',
+			'".$latitud."',
+			'".$longitud."',
+			'".$fecha."',
+			now(),
+			1)";
+		
+		$consultaOk=mysql_query($insert);
 		mysql_close($com);
 		
 		return $consultaOk;

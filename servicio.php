@@ -245,6 +245,8 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha){
 				echo "Error al conectar con la Base de Datos";
 				exit();
 			}
+		$date = date("Y-m-d H:i:s");
+
 		$insert = "insert into PasajesEnCurso(nombreCliente,
 																		direccion,
 																		latDireccion,
@@ -257,8 +259,8 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha){
 			'".$latitud."',
 			'".$longitud."',
 			'".$fecha."',
-			now(),
-			1)";
+			'".$date."',
+			true)";
 		
 		$consultaOk=mysql_query($insert);
 		mysql_close($com);

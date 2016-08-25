@@ -75,6 +75,16 @@
  									"fecha" => 'xsd:string'),
  								array("return" => 'xsd:boolean'),
  								$urlns);
+
+ 	$servidor->register('obtenerChoferes',
+ 								array(),
+ 								array("return"=>'tns:ArregloChoferes'),
+ 								$urlns);
+
+ 	$servidor->register('obtenerEstadoPasaje',
+ 								array("imei" => 'xsd:string'),
+ 								array("return" => 'xsd:string'),
+ 								$urlns);
 								
 								
 	//Se agregan las estructuras de datos necesarias
@@ -100,6 +110,30 @@
 											         'wsdl:arrayType' => 'tns:Movil[]')
 											        ),
 											    'tns:Movil');
+
+	$servidor->wsdl->addComplexType(
+									'Chofer',
+									'complexType',
+									'struct',
+									'all',
+									'',
+									 array(
+                        			'latitud'            => array('name' => 'latitud', 'type' => 'xsd:string'),
+                        			'longitud'            => array('name' => 'longitud', 'type' => 'xsd:string'),
+                        			'numero_movil'       => array('name' => 'numero_movil', 'type' => 'xsd:int' ),
+                        			'estado'       => array('name' => 'estado', 'type' => 'xsd:string' ),
+                            ));
+	$servidor->wsdl->addComplexType('ArregloChoferes',
+												'complexType',
+												'array',
+												'',
+												'SOAP-ENC:Array',
+												 array(),
+											    array(array('ref' => 'SOAP-ENC:arrayType',
+											         'wsdl:arrayType' => 'tns:Chofer[]')
+											        ),
+											    'tns:Chofer');
+
 								
 	//Implementación de las funciones necesarias
 	function hola($nombre) {
@@ -340,6 +374,47 @@ function notificarEstadoPasajeEnCurso($idPasaje, $estado, $usuario){
 		return $consultaOk;
 
 }
+
+function obtenerChoferes(){
+	$com = establecerConexion();
+			if(!$com){
+				echo "Error al conectar con la Base de Datos";
+				exit();
+			}
+		
+		$consulta = "SELECT numeroMovil, ubicacion_lat, ubicacion_lon, estado_movil FROM ChoferesConectados where id_agencia=1";
+		
+		$resultado = mysql_query($consulta);
+		$c=0;
+		while($registro=mysql_fetch_array($resultado)) {
+				$choferes[$c]['numero_movil']=$registro[0];
+				$choferes[$c]['latitud']=$registro[1];
+				$choferes[$c]['longitud']=$registro[2];
+				$choferes[$c]['estado']=$registro[3];
+				$c++;
+			}
+		return $choferes;
+}
+
+function obtenerEstadoPasaje($imei){
+
+	$com = establecerConexion();
+			if(!$com){
+				echo "Error al conectar con la Base de Datos";
+				exit();
+			}
+		
+		$consulta = "select estado from PasajesEnCurso where imeiCliente='".$imei."' order by id desc limit 1";
+		$resultado=mysql_query($consulta);
+		$registro=mysql_fetch_array($resultado);
+		$estado = $registro[0];
+
+		mysql_close($com);
+		
+		return $estado;
+
+}
+
 	
 	$servidor->service($HTTP_RAW_POST_DATA);
 	

@@ -382,7 +382,7 @@ function obtenerChoferes(){
 				exit();
 			}
 		
-		$consulta = "SELECT numeroMovil, ubicacion_lat, ubicacion_lon, estado_movil FROM ChoferesConectados where id_agencia=1";
+		$consulta = "SELECT numero_movil, ubicacion_lat, ubicacion_lon, estado_movil FROM ChoferesConectados where id_agencia=1";
 		
 		$resultado = mysql_query($consulta);
 		$c=0;

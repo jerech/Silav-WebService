@@ -288,7 +288,7 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha, $imei){
 																		lonDireccion,
 																		fechaDePedido,
 																		fecha,
-																		imei,
+																		imeiCliente,
 																		asignacionAutomatica) values(
 			'".$nombre."',
 			'".$direccion."',

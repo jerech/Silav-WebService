@@ -72,7 +72,8 @@
  	$servidor->register('registrarPasaje',
  								array("nombreCliente" => 'xsd:string', "direccion" => 'xsd:string',
  									"latitud" => 'xsd:string',"longitud" => 'xsd:string',
- 									"fecha" => 'xsd:string'),
+ 									"fecha" => 'xsd:string',
+ 									"imei" => 'xsd:string'),
  								array("return" => 'xsd:boolean'),
  								$urlns);
 
@@ -273,7 +274,7 @@ function desconectarChofer($usuario, $num_movil) {
 
 }
 
-function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha){
+function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha, $imei){
 		$com = establecerConexion();
 			if(!$com){
 				echo "Error al conectar con la Base de Datos";
@@ -287,6 +288,7 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha){
 																		lonDireccion,
 																		fechaDePedido,
 																		fecha,
+																		imei,
 																		asignacionAutomatica) values(
 			'".$nombre."',
 			'".$direccion."',
@@ -294,6 +296,7 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha){
 			'".$longitud."',
 			'".$fecha."',
 			'".$date."',
+			'".$imei."',
 			true)";
 		
 		$consultaOk=mysql_query($insert);

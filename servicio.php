@@ -299,7 +299,7 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha, $imei){
 			'".$date."',
 			'".$imei."',
 			true,
-			'',)";
+			'')";
 		
 		$consultaOk=mysql_query($insert);
 		mysql_close($com);

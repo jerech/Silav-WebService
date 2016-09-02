@@ -289,7 +289,8 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha, $imei){
 																		fechaDePedido,
 																		fecha,
 																		imeiCliente,
-																		asignacionAutomatica) values(
+																		asignacionAutomatica,
+																		usuarioChofer) values(
 			'".$nombre."',
 			'".$direccion."',
 			'".$latitud."',
@@ -297,7 +298,8 @@ function registrarPasaje($nombre, $direccion, $latitud,$longitud,$fecha, $imei){
 			'".$fecha."',
 			'".$date."',
 			'".$imei."',
-			true)";
+			true,
+			'',)";
 		
 		$consultaOk=mysql_query($insert);
 		mysql_close($com);
